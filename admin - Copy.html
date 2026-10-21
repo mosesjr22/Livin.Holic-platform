@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Livin.Holic</title>
+    <meta name="description" content="Private product administration for Livin.Holic.">
+    <meta name="theme-color" content="#853502">
+    <meta property="og:title" content="Admin Dashboard | Livin.Holic">
+    <meta property="og:description" content="Private product administration for Livin.Holic.">
+    <meta property="og:image" content="images/logo.jpg">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+    <nav class="nav container" aria-label="Admin">
+        <a class="logo" href="index.html" aria-label="Livin.Holic website">Livin<span>.</span>Holic</a>
+        <span style="color:var(--peach-300);font-size:14px;font-weight:500">Product Administration</span>
+    </nav>
+</header>
+
+<main id="main" class="admin-main">
+<div class="container">
+
+    <section id="loginSection" class="panel login-panel">
+        <p class="eyebrow">Private access</p>
+        <h1 style="font-size:clamp(30px,5vw,40px);margin-bottom:10px">Administrator Login</h1>
+        <p class="subtitle" style="margin-bottom:24px">
+            Sign in to manage the products advertised on Livin.Holic.
+        </p>
+
+        <div id="loginMessage" class="message hidden" role="status"></div>
+
+        <form id="loginForm" method="post" action="#">
+            <div class="field">
+                <label for="email">Administrator email</label>
+                <input type="email" id="email" autocomplete="username" required>
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <input type="password" id="password" autocomplete="current-password" required>
+            </div>
+
+            <button class="btn btn-block" type="submit" id="loginButton">Sign In</button>
+        </form>
+    </section>
+
+    <section id="dashboardSection" class="hidden">
+
+        <div class="heading">
+            <p class="eyebrow">Control centre</p>
+            <h1>Product Dashboard</h1>
+            <p class="subtitle">
+                Add and manage products that visitors can discover on Livin.Holic.
+            </p>
+
+            <div class="actions">
+                <button class="btn btn-secondary" id="refreshButton" type="button">Refresh Products</button>
+                <button class="btn btn-secondary" id="logoutButton" type="button">Sign Out</button>
+                <a class="btn btn-gold" href="index.html">View Website</a>
+            </div>
+        </div>
+
+        <div id="dashboardMessage" class="message hidden" role="status"></div>
+
+        <section class="panel">
+            <h2 id="formTitle">Add a Product</h2>
+
+            <form id="productForm">
+                <input type="hidden" id="productId">
+
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="productName">Product name *</label>
+                        <input id="productName" maxlength="180" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="categoryId">Category *</label>
+                        <select id="categoryId" required>
+                            <option value="">Loading categories...</option>
+                        </select>
+                    </div>
+
+                    <div class="field full">
+                        <label for="description">Description *</label>
+                        <textarea id="description" maxlength="5000" required></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label for="price">Price (optional)</label>
+                        <input type="number" id="price" min="0" step="0.01" placeholder="e.g. 1500">
+                    </div>
+
+                    <div class="field">
+                        <label for="currency">Currency</label>
+                        <select id="currency">
+                            <option value="KES">KES — Kenyan Shilling</option>
+                            <option value="USD">USD — US Dollar</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="marketplaceName">Marketplace / Seller</label>
+                        <input id="marketplaceName" maxlength="150" placeholder="e.g. Jumia">
+                    </div>
+
+                    <div class="field">
+                        <label for="productUrl">External product URL *</label>
+                        <input type="url" id="productUrl" placeholder="https://..." required>
+                    </div>
+
+                    <div class="field full">
+                        <label for="productImage">Product image</label>
+                        <input type="file" id="productImage" accept="image/jpeg,image/png,image/webp">
+                        <small class="subtitle">JPEG, PNG or WebP. Maximum size: 5 MB.</small>
+                    </div>
+                </div>
+
+                <div class="check-row">
+                    <label><input type="checkbox" id="isFeatured"> Feature on homepage</label>
+                    <label><input type="checkbox" id="isPublished"> Publish product</label>
+                </div>
+
+                <div class="actions">
+                    <button class="btn" type="submit" id="saveButton">Save Product</button>
+                    <button class="btn btn-secondary hidden" type="button" id="cancelEditButton">Cancel Edit</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="panel">
+            <div class="toolbar">
+                <div>
+                    <h2 style="margin-bottom:4px">Advertised Products</h2>
+                    <p class="subtitle">Manage existing listings.</p>
+                </div>
+
+                <input type="search" id="searchProducts" placeholder="Search products...">
+            </div>
+
+            <div id="productList" class="product-grid">
+                <p class="empty">Loading products...</p>
+            </div>
+        </section>
+
+    </section>
+
+</div>
+</main>
+
+<!--
+    SAFETY NET (normal script, not a module).
+    It runs even when js/admin.js fails to load, so a broken login can never
+    fail silently. admin.js sets window.__livinHolicAdminReady = true as soon
+    as it loads successfully.
+-->
+<script>
+    (function () {
+        var loginForm = document.getElementById("loginForm");
+        var box = document.getElementById("loginMessage");
+
+        function show(text) {
+            box.textContent = text;
+            box.className = "message error";
+        }
+
+        // ES modules are blocked by browsers when a page is opened by
+        // double-clicking it (file://). It must be served over http(s).
+        if (location.protocol === "file:") {
+            show(
+                "This page was opened directly from your computer (file://). " +
+                "Browsers block JavaScript modules in that mode, so sign-in cannot work. " +
+                "Open it through a local server (VS Code 'Live Server' extension, or run " +
+                "'python -m http.server' in the project folder and visit http://localhost:8000/admin.html), " +
+                "or upload the site and open the https:// address."
+            );
+        }
+
+        // Always stop the browser's native form submit. Without this, when
+        // admin.js has failed, pressing Sign In reloads the page and puts the
+        // email and password into the address bar, which looks like
+        // "nothing happened".
+        loginForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            if (!window.__livinHolicAdminReady) {
+                show(
+                    "The admin script did not load, so sign-in cannot run. " +
+                    "Press F12 and open the Console tab to see the exact error. " +
+                    "Check that js/admin.js and js/supabase.js exist at those exact paths."
+                );
+            }
+        });
+    })();
+</script>
+
+<script type="module" src="js/admin.js"></script>
+
+</body>
+</html>
